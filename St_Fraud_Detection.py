@@ -148,19 +148,19 @@ if h_menu == "Upload":
         addresses_df = spectra_df['Address']
 
         # st.write(spectra_df.shape)
-        #proc= pickle.load(open('preproc_C.pkl', 'rb')) 
+        proc= pickle.load(open('preproc_C.pkl', 'rb')) 
         preproc = preproc_C(spectra_df)
         X1 = spectra_df.iloc[:, 1:]
         X1_MMs = preproc.fill_median(X1)
-        MM_Scaler = pickle.load(open('D:/Final Project/scaler.pkl','rb'))
+        MM_Scaler = pickle.load(open('scaler.pkl','rb'))
         X1_MMs= MM_Scaler.transform(X1_MMs)
-        XGBm = pickle.load(open('D:/Final Project/model.pkl', 'rb'))
+        XGBm = pickle.load(open('model.pkl', 'rb'))
         preds = XGBm.predict(X1_MMs)
         pred = pd.Series(preds)
         pred = pd.DataFrame(pred , columns=['Fraud or Not'])
         lst1 = {0 :'Credible Transaction' , 1 :'Fraudulent Transaction' }
         pred = pred.map(lst1)
-        addresses_df['Fraud or Not'] = pred
+        addresses_df['Fraud or Not'] = pred['Fraud or Not']
 
         
 #st.write(spectra_df)
